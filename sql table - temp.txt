@@ -1,0 +1,169 @@
+-- ============================
+-- DATABASE
+-- ============================
+CREATE DATABASE IF NOT EXISTS online_exam;
+USE online_exam;
+
+-- ============================
+-- USERS TABLE (SECURE)
+-- ============================
+CREATE TABLE users (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    email VARCHAR(100) UNIQUE NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    role VARCHAR(20) NOT NULL DEFAULT 'user',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- ============================
+-- EXAMS TABLE
+-- ============================
+CREATE TABLE exams (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    duration INT NOT NULL, -- minutes
+    is_active BOOLEAN DEFAULT TRUE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- ============================
+-- QUESTIONS TABLE (ENCRYPTED ANSWERS)
+-- ============================
+CREATE TABLE questions (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    exam_id INT NOT NULL,
+    question VARCHAR(500) NOT NULL,
+    option1 VARCHAR(200) NOT NULL,
+    option2 VARCHAR(200) NOT NULL,
+    option3 VARCHAR(200),
+    option4 VARCHAR(200),
+    answer VARCHAR(200) NOT NULL, 
+    FOREIGN KEY (exam_id) REFERENCES exams(id) ON DELETE CASCADE
+);
+
+-- ============================
+-- RESULTS TABLE
+-- ============================
+CREATE TABLE results (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    exam_id INT NOT NULL,
+    score INT NOT NULL,
+    time_taken INT, -- seconds
+    submitted_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+    FOREIGN KEY (exam_id) REFERENCES exams(id) ON DELETE CASCADE
+);
+
+-- ============================
+-- CERTIFICATES TABLE
+-- ============================
+-- CREATE TABLE certificates (
+--   id INT AUTO_INCREMENT PRIMARY KEY,
+--   user_id INT NOT NULL,
+--   exam_id INT NOT NULL,
+--   certificate_path VARCHAR(255),
+--   issued_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+--   FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+--   FOREIGN KEY (exam_id) REFERENCES exams(id) ON DELETE CASCADE
+);
+
+-- ============================
+-- AUDIT LOGS (ANTI-CHEAT)
+-- ============================
+CREATE TABLE audit_logs (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT,
+    exam_id INT,
+    action VARCHAR(100),
+    ip_address VARCHAR(50),
+    timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+-- ====================Exam analysis ===================
+CREATE TABLE result_details (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+
+    user_id INT NOT NULL,
+    exam_id INT NOT NULL,
+    question_id INT NOT NULL,
+
+    selected_answer VARCHAR(200),
+    correct_answer VARCHAR(200),
+
+    is_correct BOOLEAN NOT NULL,
+
+    attempted_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+    FOREIGN KEY (exam_id) REFERENCES exams(id) ON DELETE CASCADE,
+    FOREIGN KEY (question_id) REFERENCES questions(id) ON DELETE CASCADE,
+
+    UNIQUE KEY uq_user_exam_question (user_id, exam_id, question_id)
+);
+-- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+javac -cp ".;C:\xampp\tomcat\lib\servlet-api.jar" -d ..\WEB-INF\classes com\onlineexamportal\dao\UserDAO.java
+
+javac -cp ".;C:\xampp\tomcat\lib\servlet-api.jar;C:\xampp\tomcat\lib\ext\*" ^
+-d ..\WEB-INF\classes ^
+com\onlineexamportal\controller\CertificateServlet.java
+
+
+
+
+
+------------------------------------------
+
+javac -cp ".;C:\xampp\tomcat\webapps\OnlineExamPortal\WEB-INF\lib\*" ^
+-d ..\WEB-INF\classes ^
+com\onlineexamportal\model\*.java ^
+com\onlineexamportal\util\*.java ^
+com\onlineexamportal\dao\*.java ^
+com\onlineexamportal\controller\*.java
+
+------------------------------
+cd C:\xampp\tomcat\webapps\OnlineExamPortal\src
+
+javac -cp ".;C:\xampp\tomcat\webapps\OnlineExamPortal\WEB-INF\lib\*" ^
+-d ..\WEB-INF\classes ^
+com\onlineexamportal\dao\CertificateDAO.java
+
+javac -cp ".;..\WEB-INF\lib\*" -d ..\WEB-INF\classes ^
+com\onlineexamportal\controller\AdminServlet.java
+
+
+
+
+
+-=-=============================
+cd /c/xampp/tomcat/webapps/OnlineExamPortal
+git init
+git remote add origin https://github.com/jayesh79-da/OnlineExamPortal1.git
+git add .
+git commit -m "Initial commit"
+git branch -M main
+git push -u origin main --force
+

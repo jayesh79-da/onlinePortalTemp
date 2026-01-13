@@ -1,0 +1,22 @@
+# Initialize Git in your project folder
+git init
+
+# Add all files to staging
+git add .
+
+# Commit the changes with a message
+git commit -m "Initial commit"
+
+# Add remote repository (replace <URL> with your repo URL)
+git remote add origin https://github.com/username/repository.git
+
+# Rename branch to main (optional)
+git branch -M main
+
+# Push to remote repository
+git push -u origin main
+
+# For future updates:
+git add .
+git commit -m "Your commit message"
+git push
