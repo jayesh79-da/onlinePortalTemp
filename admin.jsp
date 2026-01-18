@@ -43,20 +43,35 @@ response.setDateHeader("Expires", 0);
 <body>
     <div class="page-wrapper">
     <div class="container">
+
         <h2>Admin Dashboard</h2>
+        <h3>Select an option from below:</h3>
 
+        <select id="adminMenu" class="admin-select" onchange="handleMenuChange()">
+            <option value="">--select--</option>
+            <option value="addExam"> Add Exam </option>
+            <option value="addQuestion"> Add Question </option>
+            <option value="addMultipleQ"> Add Multiple questions </option>
+            <option value="users"> Users</option>
+            <option value="exams"> Exams</option>    
+           
+        </select>
+        
         <!-- Add Exam -->
-        <h3>Add Exam</h3>
-        <form action="admin" method="post">
-            <input type="hidden" name="action" value="addExam">
-            <input type="text" name="examName" placeholder="Exam Name" required>
-            <input type="number" name="duration" placeholder="Duration (minutes)" required>
-            <input type="submit" value="Add Exam">
-        </form>
-
-        <!-- Add Question -->
-        <h3>Add Question</h3>
-        <form action="admin" method="post">
+         <div id="addExam" class="menu-section">
+             <h3>Add Exam</h3>
+             <form action="admin" method="post">
+                 <input type="hidden" name="action" value="addExam">
+                 <input type="text" name="examName" placeholder="Exam Name" required>
+                 <input type="number" name="duration" placeholder="Duration (minutes)" required>
+                 <input type="submit" value="Add Exam">
+                </form>
+            </div>
+            
+            <!-- Add Question -->
+        <div id="addQuestion" class="menu-section">
+            <h3>Add Question</h3>
+            <form action="admin" method="post">
             <input type="hidden" name="action" value="addQuestion">
 
             <label for="examId">Select Exam:</label>
@@ -72,59 +87,60 @@ response.setDateHeader("Expires", 0);
             <input type="text" name="option3" placeholder="Option 3">
             <input type="text" name="option4" placeholder="Option 4">
             <input type="text" name="answer" placeholder="Correct Answer" required>
-
+            
             <input type="submit" value="Add Question">
         </form>
+        </div>
 
-
-<h3>Add Multiple Questions</h3>
-<form action="admin" method="post" id="multiQuestionForm">
+    <div id="addMultipleQ" class="menu-section">
+        
+        <h3>Add Multiple Questions</h3>
+        <form action="admin" method="post" id="multiQuestionForm">
     <input type="hidden" name="action" value="addMultipleQuestions">
 
     <label for="examIdMulti">Select Exam:</label>
     <select name="examId" id="examIdMulti" required>
         <% for(Exam e : exams) { %>
             <option value="<%= e.getId() %>"><%= e.getName() %></option>
-        <% } %>
-    </select>
+            <% } %>
+        </select>
+        
+        <p>Paste questions in this format (numbered, options A-D, last line Answer: ...):</p>
+        <pre>
+            1. Question text
+            A) Option 1
+            B) Option 2
+            C) Option 3
+            D) Option 4
+            Answer: C) Correct Option
 
-    <p>Paste questions in this format (numbered, options A-D, last line Answer: ...):</p>
-    <pre>
-1. Question text
-A) Option 1
-B) Option 2
-C) Option 3
-D) Option 4
-Answer: C) Correct Option
+            2. Question 2...
+</pre>
 
-2. Question 2...
-    </pre>
+<textarea name="bulkQuestions" id="bulkQuestions" rows="20" style="width:100%;" 
+placeholder="Paste your questions here..." required></textarea>
 
-    <textarea name="bulkQuestions" id="bulkQuestions" rows="20" style="width:100%;" 
-              placeholder="Paste your questions here..." required></textarea>
-
-    <input type="submit" value="Add All Questions" style="margin-top:10px;">
+<input type="submit" value="Add All Questions" style="margin-top:10px;">
 </form>
 
+</div>
 
 
-<hr>
-<h3>Users</h3>
-
-<table>
+<div id="users" class="menu-section">
+    <h3>Users</h3>
+    
+    <table>
     <tr>
-            <th>ID</th>
-            <th>User Name</th>
+        <th>ID</th>
+        <th>User Name</th>
             <th>Email</th>
-            <!-- <th>Exam Name</th>
-        <th>Score</th> -->
+            
+        </tr>
         
-    </tr>
-
-    <%
-      String sql =
-     "SELECT id,name,email from users";
-
+        <%
+        String sql =
+        "SELECT id,name,email from users";
+        
         
         try (
             Connection conn = com.onlineexamportal.util.DBConnection.getConnection();
@@ -139,16 +155,18 @@ Answer: C) Correct Option
                         <td><%= rs.getString("email") %></td>
 
     
-</tr>
-   <%
-   }
-} catch (Exception e) {
-        out.println("<tr><td colspan='5'>Error loading data</td></tr>");
-    }
-    %>
+                    </tr>
+                    <%
+                }
+            } catch (Exception e) {
+                out.println("<tr><td colspan='5'>Error loading data</td></tr>");
+            }
+            %>
+            
+        </table>
+    </div>
     
-</table>
-
+<div id="exams" class="menu-section">
 
 <h3>Exams</h3>
 
@@ -197,7 +215,7 @@ try (
 }
 %>
 </table> 
-
+</div>
 
 
 <!-- protection script -->
@@ -218,6 +236,18 @@ window.onpageshow = function(event) {
     }
 
     document.addEventListener("contextmenu", e => e.preventDefault());
+
+
+function handleMenuChange() {
+    const sections = document.querySelectorAll('.menu-section');
+    sections.forEach(section => section.style.display = 'none');
+
+    const selected = document.getElementById('adminMenu').value;
+    if (selected) {
+        document.getElementById(selected).style.display = 'block';
+    }
+}
+
 
 
 </script>
