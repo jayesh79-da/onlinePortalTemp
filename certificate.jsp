@@ -1,31 +1,25 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
+    response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+    response.setHeader("Pragma", "no-cache");
+    response.setDateHeader("Expires", 0);
+
     // Get rank from request attribute
     Integer rank = (Integer) request.getAttribute("rank");
-<<<<<<< HEAD
-    Integer score = (Integer) request.getAttribute("score");       
-
-=======
     Integer score = (Integer) request.getAttribute("score");
->>>>>>> e3b786f7701815049e1550c3a1644af41ce5a9c2
 
     String badgeText = "";
     String badgeColor = "";
     String achievementText = "for successfully completing the examination";
 
-<<<<<<< HEAD
     boolean showBadge = false;
 
     if (rank != null && rank>=1 && rank<=3) {
-=======
-    if (rank != null) {
->>>>>>> e3b786f7701815049e1550c3a1644af41ce5a9c2
         switch (rank) {
             case 1:
                 badgeText = "🏆 Rank 1 - GOLD ACHIEVER";
                 badgeColor = "#d4af37";
                 achievementText = "for securing <b>FIRST RANK</b> with outstanding performance in";
-<<<<<<< HEAD
                 showBadge = true;
                 break;
 
@@ -43,19 +37,6 @@
                 showBadge = true;
                 break;
 
-=======
-                break;
-            case 2:
-                badgeText = "🥈 Rank 2 - SILVER ACHIEVER";
-                badgeColor = "#c0c0c0";
-                achievementText = "for securing <b>SECOND RANK</b> with excellent performance in";
-                break;
-            case 3:
-                badgeText = "🥉 Rank 3 - BRONZE ACHIEVER";
-                badgeColor = "#cd7f32";
-                achievementText = "for securing <b>THIRD RANK</b> with commendable performance in";
-                break;
->>>>>>> e3b786f7701815049e1550c3a1644af41ce5a9c2
         }
     }
 %> 
@@ -167,7 +148,7 @@
 }
 
 .certificate-footer{
-    margin-top:70px;
+    margin-top:120px;
     display:flex;
     justify-content:space-between;
     align-items:center;
@@ -209,6 +190,14 @@ a{
     color:#8b0000;
     text-decoration:none;
 }
+
+.spl-badge{
+    position:absolute;
+    top:150px;
+    left:30px;
+    height:250px;
+    width: 170px;
+}
 </style>
 </head>
 
@@ -217,17 +206,15 @@ a{
     <div class="certificate-wrapper">
         <div class="certificate-container" id="certificate">
             
-<<<<<<< HEAD
             <% if (showBadge) { %>
-=======
-            <% if (rank != null) { %>
->>>>>>> e3b786f7701815049e1550c3a1644af41ce5a9c2
                 <div class="rank-badge" style="background:<%= badgeColor %>">
                     <%= badgeText %>
                 </div>
             <% } %>         
             
         <img src="online-test.png" class = "logo-left">
+
+        <img src="css/badge.png" class="spl-badge">
         
         <div class="certificate-title">Certificate of Achievement</div>
         
@@ -288,7 +275,6 @@ a{
     e.preventDefault();
     });
 
-<<<<<<< HEAD
     
 document.getElementById("downloadBtn").addEventListener("click", function (e) {
     e.preventDefault();
@@ -325,20 +311,6 @@ document.getElementById("downloadBtn").addEventListener("click", function (e) {
 
 
 
-=======
-
-document.getElementById("downloadBtn").addEventListener("click", function(e){
-    e.preventDefault();
-    const { jsPDF } = window.jspdf;
-    
-    html2canvas(document.getElementById("certificate")).then(canvas=>{
-        const imgData = canvas.toDataURL("image/png");
-        const pdf = new jsPDF("l","pt",[canvas.width,canvas.height]);
-        pdf.addImage(imgData,"PNG",0,0,canvas.width,canvas.height);
-        pdf.save("Certificate.pdf");
-    });
-});
->>>>>>> e3b786f7701815049e1550c3a1644af41ce5a9c2
 </script>
 
 </body>
@@ -369,7 +341,6 @@ document.getElementById("downloadBtn").addEventListener("click", function(e){
 
 
 
-<<<<<<< HEAD
 <!-- // document.getElementById("downloadBtn").addEventListener("click", function(e){
 //     e.preventDefault();
 //     const { jsPDF } = window.jspdf;
@@ -382,8 +353,6 @@ document.getElementById("downloadBtn").addEventListener("click", function(e){
 //     });
 // }); -->
 
-=======
->>>>>>> e3b786f7701815049e1550c3a1644af41ce5a9c2
 
 
 
