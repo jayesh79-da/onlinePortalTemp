@@ -1,4 +1,10 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java"%>
+<% 
+    response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+    response.setHeader("Pragma", "no-cache");
+    response.setDateHeader("Expires", 0);
+
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -22,6 +28,7 @@
             <%= request.getAttribute("errorMessage") != null ? request.getAttribute("errorMessage") : "" %>
         </p>
         <p>Already have an account? <a href="login.jsp">Login here</a></p>
+        <a href = "index.jsp">Home</a>
     </div>
     </div>
 

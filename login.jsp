@@ -1,15 +1,10 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
-<<<<<<< HEAD
 int a = (int)(Math.random() * 100);
 int b = (int)(Math.random() * 100);
-=======
-int a = (int)(Math.random() * 10);
-int b = (int)(Math.random() * 10);
->>>>>>> e3b786f7701815049e1550c3a1644af41ce5a9c2
+
 session.setAttribute("captchaAnswer", a + b);
 
-// PREVENT BACK BUTTON CACHE
 response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
 response.setHeader("Pragma", "no-cache");
 response.setDateHeader("Expires", 0);
@@ -38,17 +33,18 @@ response.setDateHeader("Expires", 0);
             <input type="password" name="password" placeholder="Password" required>
             <br><label>Solve CAPTCHA:</label>
             <p><strong><%= a %> + <%= b %> = ?</strong></p>
-<<<<<<< HEAD
+
                 <input type="text" name="captcha" required>
-=======
-                <input type="number" name="captcha" required>
->>>>>>> e3b786f7701815049e1550c3a1644af41ce5a9c2
+                <!-- <input type="number" name="captcha" required> -->
             <input type="submit" value="Login">
         </form>
         <p class="error-message">
             <%= request.getAttribute("errorMessage") != null ? request.getAttribute("errorMessage") : "" %>
         </p>
         <p>New user? <a href="register.jsp">Register here</a></p>
+        <br>
+        <br>
+        <a href = "index.jsp">Home</a>
     </div>
     </div>
 
